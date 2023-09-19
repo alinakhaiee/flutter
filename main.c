@@ -475,7 +475,7 @@ int main(int argc, char **argv) {
 //	    lv_obj_align(ta, LV_ALIGN_TOP_MID, 0, 0);
 	    lv_obj_align_to(ta, title_box2, LV_ALIGN_OUT_BOTTOM_MID, 10, 4);
 	    lv_obj_add_event(ta, ta_event_cb, LV_EVENT_ALL, kb);
-	    lv_textarea_set_placeholder_text(ta, "Hello");
+	    lv_textarea_set_placeholder_text(ta, "Password 8 character");
 	    lv_obj_set_size(ta, 240, 40);
 	    lv_obj_set_style_base_dir(ta, LV_BASE_DIR_LTR, LV_STATE_DEFAULT);
 
