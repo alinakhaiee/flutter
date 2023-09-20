@@ -132,10 +132,10 @@ static void ta_event_cb(lv_event_t *e) {
 		lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
 	}
 
-    else if(code == LV_EVENT_READY || code == LV_EVENT_CANCEL) {
-        lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
-        lv_indev_reset(NULL, ta);   /*To forget the last clicked object to make it focusable again*/
-    }
+	else if (code == LV_EVENT_READY || code == LV_EVENT_CANCEL) {
+		lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
+		lv_indev_reset(NULL, ta); /*To forget the last clicked object to make it focusable again*/
+	}
 }
 
 static void lv_keyboard_btn(lv_event_t *e) {
@@ -147,8 +147,15 @@ static void lv_keyboard_btn(lv_event_t *e) {
 		lv_obj_clear_flag(kb, LV_OBJ_FLAG_HIDDEN);
 	}
 
-
 //	lv_obj_clear_flag(kb, LV_OBJ_FLAG_HIDDEN);
+}
+
+static void fade_anim_cb(void *obj, int32_t v) {
+	lv_obj_set_style_opa(obj, v, 0);
+}
+
+static void fade_in_anim_ready(lv_anim_t *a) {
+	lv_obj_remove_local_style_prop(a->var, LV_STYLE_OPA, 0);
 }
 
 int main(int argc, char **argv) {
@@ -351,206 +358,314 @@ int main(int argc, char **argv) {
 	lv_obj_add_event(btn_2, event_handler, LV_EVENT_ALL, dialog);
 	lv_obj_add_event(exit, event_handler2, LV_EVENT_ALL, dialog);
 
-	lv_obj_t *authentication = lv_obj_create(screen);
-	lv_obj_set_size(authentication, 480, 246);
-	lv_obj_align(authentication, LV_ALIGN_BOTTOM_MID, 0, 0);
-	lv_obj_set_style_radius(authentication, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(authentication, 0, LV_STATE_DEFAULT);
+	lv_obj_t *ready_to_work = lv_obj_create(screen);
+	lv_obj_set_size(ready_to_work, 480, 244);
+	lv_obj_align(ready_to_work, LV_ALIGN_BOTTOM_MID, 0, 0);
+	lv_obj_set_style_radius(ready_to_work, 0, LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(ready_to_work, 0, LV_STATE_DEFAULT);
 
-	lv_obj_t *box1 = lv_obj_create(authentication);
-	lv_obj_set_size(box1, 100, 100);
-	lv_obj_set_style_radius(box1, 50, LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(box1, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(box1, lv_color_hex(0x1F93FF), LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(box1, LV_OPA_20, LV_STATE_DEFAULT);
-	lv_obj_align(box1, LV_ALIGN_CENTER, 0, -40);
+//	lv_obj_t *box12_1 = lv_obj_create(box12);
+//	lv_obj_set_size(box12_1, 110, 90);
+//	lv_obj_set_style_bg_opa(box12_1, LV_OPA_20, LV_STATE_DEFAULT);
+//	lv_obj_set_style_border_width(box12_1, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_radius(box12_1, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_color(box12_1, lv_color_hex(0xF66547), LV_STATE_DEFAULT);
+//	lv_obj_clear_flag(box12_1, LV_OBJ_FLAG_SCROLLABLE);
 
-	lv_obj_t *auth_img = lv_img_create(box1);
-	lv_img_set_src(auth_img, &img_person_new);
-	lv_obj_align(auth_img, LV_ALIGN_CENTER, 0, 0);
+	lv_obj_t *box_btn_12 = lv_btn_create(ready_to_work);
 
-	lv_obj_t *authenticatio_name = lv_label_create(authentication);
-	lv_obj_set_style_text_font(authenticatio_name, &iran_yekan_regular_22,
+	lv_obj_set_size(box_btn_12, 80, 60);
+	lv_obj_set_style_radius(box_btn_12, 4, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(box_btn_12, LV_OPA_20, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(box_btn_12, lv_color_hex(0xF66547),
 			LV_STATE_DEFAULT);
-	lv_obj_set_size(authenticatio_name, 210, LV_SIZE_CONTENT);
-	lv_label_set_text(authenticatio_name,
-			"لطفا کارت شناسایی خود را نزدیک دستگاه کنید");
-	lv_obj_set_style_text_align(authenticatio_name, LV_TEXT_ALIGN_CENTER,
+	lv_obj_set_style_radius(box_btn_12, 10, 0);
+
+	lv_obj_align(box_btn_12, LV_ALIGN_CENTER, 0, 0);
+
+	lv_obj_t *label_box_btn_12 = lv_label_create(box_btn_12);
+	lv_obj_set_style_text_font(label_box_btn_12, &iran_yekan_regular_18,
 			LV_STATE_DEFAULT);
-	lv_obj_align_to(authenticatio_name, auth_img, LV_ALIGN_OUT_BOTTOM_MID, 0,
-			40);
-
-	lv_obj_t *back = lv_btn_create(authentication);
-
-	lv_obj_set_size(back, 110, 40);
-	lv_obj_set_style_radius(back, 8, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(back, LV_OPA_20, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(back, lv_color_hex(0xF66547), LV_STATE_DEFAULT);
-
-	lv_obj_align(back, LV_ALIGN_TOP_RIGHT, 0, 0);
-
-	lv_obj_t *label_back = lv_label_create(back);
-	lv_obj_set_style_text_font(label_back, &iran_yekan_regular_16,
+	lv_label_set_text(label_box_btn_12, "وای فای");
+	lv_obj_set_style_text_color(label_box_btn_12, lv_color_hex(0x00000),
 			LV_STATE_DEFAULT);
-	lv_label_set_text(label_back, "بازگشت");
-	lv_obj_set_style_text_color(label_back, lv_color_hex(0x00000),
+	lv_obj_center(label_box_btn_12);
+
+	lv_obj_t *box12 = lv_obj_create(box_btn_12);
+	lv_obj_set_size(box12, 15, 15);
+	lv_obj_set_style_bg_color(box12, lv_color_hex(0x01E7C1), LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(box12, 0, LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(box12, 40, LV_STATE_DEFAULT);
+	lv_obj_clear_flag(box12, LV_OBJ_FLAG_SCROLLABLE);
+	lv_obj_align(box12, LV_ALIGN_TOP_RIGHT, 10, -6);
+
+	lv_obj_t *box_btn_13 = lv_btn_create(ready_to_work);
+
+	lv_obj_set_size(box_btn_13, 80, 60);
+	lv_obj_set_style_radius(box_btn_13, 4, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(box_btn_13, LV_OPA_20, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(box_btn_13, lv_color_hex(0xF66547),
 			LV_STATE_DEFAULT);
-	lv_obj_center(label_back);
+	lv_obj_set_style_radius(box_btn_13, 10, 0);
 
-	lv_obj_t *selectWifi = lv_obj_create(screen);
-	lv_obj_set_size(selectWifi, 480, 244);
-	lv_obj_set_style_radius(selectWifi, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(selectWifi, 0, LV_STATE_DEFAULT);
-	lv_obj_clear_flag(selectWifi, LV_OBJ_FLAG_SCROLLABLE);
-	lv_obj_set_style_bg_color(selectWifi, lv_color_hex(0xFFEDEDED),
+	lv_obj_align(box_btn_13, LV_ALIGN_CENTER, 0, 0);
+
+	lv_obj_t *label_box_btn_13 = lv_label_create(box_btn_13);
+	lv_obj_set_style_text_font(label_box_btn_13, &iran_yekan_regular_18,
 			LV_STATE_DEFAULT);
-	lv_obj_set_style_align(selectWifi, LV_ALIGN_BOTTOM_MID, LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(selectWifi, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_all(selectWifi, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(selectWifi, 0, LV_STATE_DEFAULT);
-
-	lv_obj_t *label_wifi = lv_label_create(selectWifi);
-	lv_obj_set_style_text_font(label_wifi, &iran_yekan_regular_22,
+	lv_label_set_text(label_box_btn_13, "وای فای");
+	lv_obj_set_style_text_color(label_box_btn_13, lv_color_hex(0x00000),
 			LV_STATE_DEFAULT);
-	lv_label_set_text(label_wifi, "لیست مودم ها");
-	lv_obj_set_style_text_color(label_wifi, lv_color_hex(0x00000),
+	lv_obj_center(label_box_btn_13);
+
+	lv_obj_t *box13 = lv_obj_create(box_btn_13);
+	lv_obj_set_size(box13, 15, 15);
+	lv_obj_set_style_bg_color(box13, lv_color_hex(0x01E7C1), LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(box13, 0, LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(box13, 40, LV_STATE_DEFAULT);
+	lv_obj_clear_flag(box13, LV_OBJ_FLAG_SCROLLABLE);
+	lv_obj_align(box13, LV_ALIGN_TOP_RIGHT, 10, -6);
+
+	lv_obj_t *box_btn_14 = lv_btn_create(ready_to_work);
+
+	lv_obj_set_size(box_btn_14, 80, 60);
+	lv_obj_set_style_radius(box_btn_14, 4, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(box_btn_14, LV_OPA_20, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(box_btn_14, lv_color_hex(0xF66547),
 			LV_STATE_DEFAULT);
-	lv_obj_align(label_wifi, LV_ALIGN_TOP_RIGHT, -12, 0);
+	lv_obj_set_style_radius(box_btn_14, 10, 0);
 
-	lv_obj_t *wifi_list = lv_list_create(selectWifi);
+	lv_obj_align(box_btn_14, LV_ALIGN_CENTER, 0, 0);
 
-	lv_obj_set_size(wifi_list, 480, 200);
-	lv_obj_align(wifi_list, LV_ALIGN_BOTTOM_MID, 0, 0);
-	lv_obj_set_scrollbar_mode(wifi_list, LV_SCROLLBAR_MODE_ON);
-	lv_obj_set_scroll_dir(wifi_list, LV_DIR_VER);
-	lv_obj_set_style_pad_left(wifi_list, 50, LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_right(wifi_list, 50, LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(wifi_list, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(wifi_list, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(wifi_list, lv_color_hex(0xFFEDEDED),
+	lv_obj_t *label_box_btn_14 = lv_label_create(box_btn_14);
+	lv_obj_set_style_text_font(label_box_btn_14, &iran_yekan_regular_18,
 			LV_STATE_DEFAULT);
-
-	static lv_style_t style_btn;
-	lv_style_init(&style_btn);
-	lv_style_set_bg_color(&style_btn, lv_color_hex(0xD8D8D8));
-	static lv_style_t style_ssid;
-	lv_style_init(&style_ssid);
-	lv_style_set_text_font(&style_ssid, &iran_yekan_regular_16);
-
-
-	lv_obj_t *dialog2 = lv_obj_create(screen);
-	lv_obj_set_size(dialog2, 480, 246);
-	lv_obj_set_style_bg_color(dialog2, lv_color_hex(0x00000), LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(dialog2, LV_OPA_30, LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(dialog2, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(dialog2, 0, LV_STATE_DEFAULT);
-	lv_obj_align(dialog2, LV_ALIGN_BOTTOM_MID, 0, 0);
-	lv_obj_set_style_pad_all(dialog2, 0, LV_STATE_DEFAULT);
-
-	lv_obj_add_flag(dialog2, LV_OBJ_FLAG_HIDDEN);
-
-
-	lv_obj_t *box2 = lv_obj_create(dialog2);
-	lv_obj_set_style_pad_all(box2, 8, LV_STATE_DEFAULT);
-	lv_obj_set_size(box2, 280, 180);
-	lv_obj_align(box2, LV_ALIGN_CENTER, 0, -15);
-
-	lv_obj_t *kb = lv_keyboard_create(dialog2);
-	lv_obj_set_width(kb, 480);
-	lv_obj_align(kb, LV_ALIGN_BOTTOM_MID, 0, 0);
-			lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
-
-
-
-
-	lv_obj_t *title_box2 = lv_label_create(box2);
-	lv_obj_set_style_text_font(title_box2, &iran_yekan_regular_18,
+	lv_label_set_text(label_box_btn_14, "وای فای");
+	lv_obj_set_style_text_color(label_box_btn_14, lv_color_hex(0x00000),
 			LV_STATE_DEFAULT);
-	lv_label_set_text(title_box2, "پسورد");
-	lv_obj_align(title_box2, LV_ALIGN_TOP_MID, 0, 0);
+	lv_obj_center(label_box_btn_14);
 
+	lv_obj_t *box14 = lv_obj_create(box_btn_14);
+	lv_obj_set_size(box14, 15, 15);
+	lv_obj_set_style_bg_color(box14, lv_color_hex(0x01E7C1), LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(box14, 0, LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(box14, 40, LV_STATE_DEFAULT);
+	lv_obj_clear_flag(box14, LV_OBJ_FLAG_SCROLLABLE);
+	lv_obj_align(box14, LV_ALIGN_TOP_RIGHT, 10, -6);
 
-	lv_obj_t * ta;
-	    ta = lv_textarea_create(box2);
-//	    lv_obj_align(ta, LV_ALIGN_TOP_MID, 0, 0);
-	    lv_obj_align_to(ta, title_box2, LV_ALIGN_OUT_BOTTOM_MID, 10, 4);
-	    lv_obj_add_event(ta, ta_event_cb, LV_EVENT_ALL, kb);
-	    lv_textarea_set_placeholder_text(ta, "Password 8 character");
-	    lv_obj_set_size(ta, 240, 40);
-	    lv_obj_set_style_base_dir(ta, LV_BASE_DIR_LTR, LV_STATE_DEFAULT);
+	lv_anim_t a;
+	lv_anim_init(&a);
+	lv_anim_set_var(&a, box12);
+	lv_anim_set_values(&a, 0, LV_OPA_COVER);
+	lv_anim_set_exec_cb(&a, fade_anim_cb);
+	lv_anim_set_ready_cb(&a, fade_in_anim_ready);
+	lv_anim_set_time(&a, 800);
+	lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
+	lv_anim_set_delay(&a, 0);
+	lv_anim_start(&a);
 
+//	lv_obj_del_anim_ready_cb(&a);
 
-	lv_obj_t *exit_box2 = lv_btn_create(box2);
+//	lv_obj_t *authentication = lv_obj_create(screen);
+//	lv_obj_set_size(authentication, 480, 246);
+//	lv_obj_align(authentication, LV_ALIGN_BOTTOM_MID, 0, 0);
+//	lv_obj_set_style_radius(authentication, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_border_width(authentication, 0, LV_STATE_DEFAULT);
+//
+//	lv_obj_t *box1 = lv_obj_create(authentication);
+//	lv_obj_set_size(box1, 100, 100);
+//	lv_obj_set_style_radius(box1, 50, LV_STATE_DEFAULT);
+//	lv_obj_set_style_border_width(box1, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_color(box1, lv_color_hex(0x1F93FF), LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_opa(box1, LV_OPA_20, LV_STATE_DEFAULT);
+//	lv_obj_align(box1, LV_ALIGN_CENTER, 0, -40);
+//
+//	lv_obj_t *auth_img = lv_img_create(box1);
+//	lv_img_set_src(auth_img, &img_person_new);
+//	lv_obj_align(auth_img, LV_ALIGN_CENTER, 0, 0);
+//
+//	lv_obj_t *authenticatio_name = lv_label_create(authentication);
+//	lv_obj_set_style_text_font(authenticatio_name, &iran_yekan_regular_22,
+//			LV_STATE_DEFAULT);
+//	lv_obj_set_size(authenticatio_name, 210, LV_SIZE_CONTENT);
+//	lv_label_set_text(authenticatio_name,
+//			"لطفا کارت شناسایی خود را نزدیک دستگاه کنید");
+//	lv_obj_set_style_text_align(authenticatio_name, LV_TEXT_ALIGN_CENTER,
+//			LV_STATE_DEFAULT);
+//	lv_obj_align_to(authenticatio_name, auth_img, LV_ALIGN_OUT_BOTTOM_MID, 0,
+//			40);
+//
+//	lv_obj_t *back = lv_btn_create(authentication);
+//
+//	lv_obj_set_size(back, 110, 40);
+//	lv_obj_set_style_radius(back, 8, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_opa(back, LV_OPA_20, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_color(back, lv_color_hex(0xF66547), LV_STATE_DEFAULT);
+//
+//	lv_obj_align(back, LV_ALIGN_TOP_RIGHT, 0, 0);
+//
+//	lv_obj_t *label_back = lv_label_create(back);
+//	lv_obj_set_style_text_font(label_back, &iran_yekan_regular_16,
+//			LV_STATE_DEFAULT);
+//	lv_label_set_text(label_back, "بازگشت");
+//	lv_obj_set_style_text_color(label_back, lv_color_hex(0x00000),
+//			LV_STATE_DEFAULT);
+//	lv_obj_center(label_back);
 
-	lv_obj_set_size(exit_box2, 90, 34);
-	lv_obj_set_style_radius(exit_box2, 8, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(exit_box2, LV_OPA_20, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(exit_box2, lv_color_hex(0xF66547),
-			LV_STATE_DEFAULT);
-
-	lv_obj_align(exit_box2, LV_ALIGN_BOTTOM_MID, -50, 0);
-
-	lv_obj_t *label_exit_box2 = lv_label_create(exit_box2);
-	lv_obj_set_style_text_font(label_exit_box2, &iran_yekan_regular_16,
-			LV_STATE_DEFAULT);
-	lv_label_set_text(label_exit_box2, "بستن");
-	lv_obj_set_style_text_color(label_exit_box2, lv_color_hex(0x00000),
-			LV_STATE_DEFAULT);
-	lv_obj_center(label_exit_box2);
-
-	lv_obj_t *submit_box2 = lv_btn_create(box2);
-
-	lv_obj_set_size(submit_box2, 90, 34);
-	lv_obj_set_style_radius(submit_box2, 8, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(submit_box2, LV_OPA_20, LV_STATE_DEFAULT);
-
-//	lv_obj_align(submit_box2, LV_ALIGN_BOTTOM_MID, 0, 0);
-	lv_obj_align_to(submit_box2, exit_box2, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
-
-	lv_obj_t *label_submit_box2 = lv_label_create(submit_box2);
-	lv_obj_set_style_text_font(label_submit_box2, &iran_yekan_regular_16,
-			LV_STATE_DEFAULT);
-	lv_label_set_text(label_submit_box2, "تایید");
-	lv_obj_set_style_text_color(label_submit_box2, lv_color_hex(0x00000),
-			LV_STATE_DEFAULT);
-	lv_obj_center(label_submit_box2);
-
-	lv_obj_add_event(submit_box2, event_handler2, LV_EVENT_ALL, dialog2);
-	lv_obj_add_event(exit_box2, event_handler2, LV_EVENT_ALL, dialog2);
-
-	for (int i = 0; i < 20; i++) {
-		lv_obj_t *obj = lv_obj_class_create_obj(&lv_list_btn_class, wifi_list);
-		lv_obj_class_init_obj(obj);
-		lv_obj_set_size(obj, LV_PCT(100), LV_SIZE_CONTENT);
-		lv_obj_set_flex_flow(obj, LV_FLEX_FLOW_ROW);
-		lv_obj_set_style_border_width(obj, 0, LV_STATE_DEFAULT);
-		lv_obj_set_style_bg_color(obj, lv_color_hex(0x1F93FF),
-				LV_STATE_DEFAULT);
-		lv_obj_set_style_bg_color(obj, lv_color_hex(0x000000),
-				LV_STATE_PRESSED);
-		lv_obj_set_style_bg_opa(obj, LV_OPA_20, LV_STATE_DEFAULT);
-		lv_obj_set_style_margin_all(obj, 6, LV_STATE_DEFAULT);
-		lv_obj_set_height(obj, 46);
-		lv_obj_set_style_radius(obj, 8, LV_STATE_DEFAULT);
-		lv_obj_t *label = lv_label_create(obj);
-		lv_obj_set_style_text_font(label, &iran_yekan_regular_16,
-				LV_STATE_DEFAULT);
-		lv_label_set_text(label, "لیست مودم ها");
-		lv_obj_set_style_text_color(label, lv_color_hex(0x00000),
-				LV_STATE_DEFAULT);
-
-		lv_obj_t *icon = lv_label_create(obj);
-		lv_obj_set_pos(icon, 0, 10);
-		lv_label_set_text(icon, LV_SYMBOL_WIFI);
-		lv_obj_set_style_text_color(icon, lv_color_hex(0x00000),
-				LV_STATE_DEFAULT);
-		lv_obj_set_style_flex_main_place(obj, LV_FLEX_ALIGN_SPACE_BETWEEN,
-				LV_STATE_DEFAULT);
-		lv_obj_set_style_flex_cross_place(obj, LV_FLEX_ALIGN_CENTER,
-				LV_STATE_DEFAULT);
-
-		lv_obj_add_event(obj, lv_keyboard_btn, LV_EVENT_ALL, dialog2);
-	}
+//	lv_obj_t *selectWifi = lv_obj_create(screen);
+//	lv_obj_set_size(selectWifi, 480, 244);
+//	lv_obj_set_style_radius(selectWifi, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_border_width(selectWifi, 0, LV_STATE_DEFAULT);
+//	lv_obj_clear_flag(selectWifi, LV_OBJ_FLAG_SCROLLABLE);
+//	lv_obj_set_style_bg_color(selectWifi, lv_color_hex(0xFFEDEDED),
+//			LV_STATE_DEFAULT);
+//	lv_obj_set_style_align(selectWifi, LV_ALIGN_BOTTOM_MID, LV_STATE_DEFAULT);
+//	lv_obj_set_style_radius(selectWifi, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_pad_all(selectWifi, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_border_width(selectWifi, 0, LV_STATE_DEFAULT);
+//
+//	lv_obj_t *label_wifi = lv_label_create(selectWifi);
+//	lv_obj_set_style_text_font(label_wifi, &iran_yekan_regular_22,
+//			LV_STATE_DEFAULT);
+//	lv_label_set_text(label_wifi, "لیست مودم ها");
+//	lv_obj_set_style_text_color(label_wifi, lv_color_hex(0x00000),
+//			LV_STATE_DEFAULT);
+//	lv_obj_align(label_wifi, LV_ALIGN_TOP_RIGHT, -12, 0);
+//
+//	lv_obj_t *wifi_list = lv_list_create(selectWifi);
+//
+//	lv_obj_set_size(wifi_list, 480, 200);
+//	lv_obj_align(wifi_list, LV_ALIGN_BOTTOM_MID, 0, 0);
+//	lv_obj_set_scrollbar_mode(wifi_list, LV_SCROLLBAR_MODE_ON);
+//	lv_obj_set_scroll_dir(wifi_list, LV_DIR_VER);
+//	lv_obj_set_style_pad_left(wifi_list, 50, LV_STATE_DEFAULT);
+//	lv_obj_set_style_pad_right(wifi_list, 50, LV_STATE_DEFAULT);
+//	lv_obj_set_style_border_width(wifi_list, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_radius(wifi_list, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_color(wifi_list, lv_color_hex(0xFFEDEDED),
+//			LV_STATE_DEFAULT);
+//
+//	static lv_style_t style_btn;
+//	lv_style_init(&style_btn);
+//	lv_style_set_bg_color(&style_btn, lv_color_hex(0xD8D8D8));
+//	static lv_style_t style_ssid;
+//	lv_style_init(&style_ssid);
+//	lv_style_set_text_font(&style_ssid, &iran_yekan_regular_16);
+//
+//
+//	lv_obj_t *dialog2 = lv_obj_create(screen);
+//	lv_obj_set_size(dialog2, 480, 246);
+//	lv_obj_set_style_bg_color(dialog2, lv_color_hex(0x00000), LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_opa(dialog2, LV_OPA_30, LV_STATE_DEFAULT);
+//	lv_obj_set_style_border_width(dialog2, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_radius(dialog2, 0, LV_STATE_DEFAULT);
+//	lv_obj_align(dialog2, LV_ALIGN_BOTTOM_MID, 0, 0);
+//	lv_obj_set_style_pad_all(dialog2, 0, LV_STATE_DEFAULT);
+//
+//	lv_obj_add_flag(dialog2, LV_OBJ_FLAG_HIDDEN);
+//
+//
+//	lv_obj_t *box2 = lv_obj_create(dialog2);
+//	lv_obj_set_style_pad_all(box2, 8, LV_STATE_DEFAULT);
+//	lv_obj_set_size(box2, 280, 180);
+//	lv_obj_align(box2, LV_ALIGN_CENTER, 0, -15);
+//
+//	lv_obj_t *kb = lv_keyboard_create(dialog2);
+//	lv_obj_set_width(kb, 480);
+//	lv_obj_align(kb, LV_ALIGN_BOTTOM_MID, 0, 0);
+//			lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
+//
+//
+//
+//
+//	lv_obj_t *title_box2 = lv_label_create(box2);
+//	lv_obj_set_style_text_font(title_box2, &iran_yekan_regular_18,
+//			LV_STATE_DEFAULT);
+//	lv_label_set_text(title_box2, "پسورد");
+//	lv_obj_align(title_box2, LV_ALIGN_TOP_MID, 0, 0);
+//
+//
+//	lv_obj_t * ta;
+//	    ta = lv_textarea_create(box2);
+////	    lv_obj_align(ta, LV_ALIGN_TOP_MID, 0, 0);
+//	    lv_obj_align_to(ta, title_box2, LV_ALIGN_OUT_BOTTOM_MID, 10, 4);
+//	    lv_obj_add_event(ta, ta_event_cb, LV_EVENT_ALL, kb);
+//	    lv_textarea_set_placeholder_text(ta, "Password 8 character");
+//	    lv_obj_set_size(ta, 240, 40);
+//	    lv_obj_set_style_base_dir(ta, LV_BASE_DIR_LTR, LV_STATE_DEFAULT);
+//
+//
+//	lv_obj_t *exit_box2 = lv_btn_create(box2);
+//
+//	lv_obj_set_size(exit_box2, 90, 34);
+//	lv_obj_set_style_radius(exit_box2, 8, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_opa(exit_box2, LV_OPA_20, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_color(exit_box2, lv_color_hex(0xF66547),
+//			LV_STATE_DEFAULT);
+//
+//	lv_obj_align(exit_box2, LV_ALIGN_BOTTOM_MID, -50, 0);
+//
+//	lv_obj_t *label_exit_box2 = lv_label_create(exit_box2);
+//	lv_obj_set_style_text_font(label_exit_box2, &iran_yekan_regular_16,
+//			LV_STATE_DEFAULT);
+//	lv_label_set_text(label_exit_box2, "بستن");
+//	lv_obj_set_style_text_color(label_exit_box2, lv_color_hex(0x00000),
+//			LV_STATE_DEFAULT);
+//	lv_obj_center(label_exit_box2);
+//
+//	lv_obj_t *submit_box2 = lv_btn_create(box2);
+//
+//	lv_obj_set_size(submit_box2, 90, 34);
+//	lv_obj_set_style_radius(submit_box2, 8, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_opa(submit_box2, LV_OPA_20, LV_STATE_DEFAULT);
+//
+////	lv_obj_align(submit_box2, LV_ALIGN_BOTTOM_MID, 0, 0);
+//	lv_obj_align_to(submit_box2, exit_box2, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
+//
+//	lv_obj_t *label_submit_box2 = lv_label_create(submit_box2);
+//	lv_obj_set_style_text_font(label_submit_box2, &iran_yekan_regular_16,
+//			LV_STATE_DEFAULT);
+//	lv_label_set_text(label_submit_box2, "تایید");
+//	lv_obj_set_style_text_color(label_submit_box2, lv_color_hex(0x00000),
+//			LV_STATE_DEFAULT);
+//	lv_obj_center(label_submit_box2);
+//
+//	lv_obj_add_event(submit_box2, event_handler2, LV_EVENT_ALL, dialog2);
+//	lv_obj_add_event(exit_box2, event_handler2, LV_EVENT_ALL, dialog2);
+//
+//	for (int i = 0; i < 20; i++) {
+//		lv_obj_t *obj = lv_obj_class_create_obj(&lv_list_btn_class, wifi_list);
+//		lv_obj_class_init_obj(obj);
+//		lv_obj_set_size(obj, LV_PCT(100), LV_SIZE_CONTENT);
+//		lv_obj_set_flex_flow(obj, LV_FLEX_FLOW_ROW);
+//		lv_obj_set_style_border_width(obj, 0, LV_STATE_DEFAULT);
+//		lv_obj_set_style_bg_color(obj, lv_color_hex(0x1F93FF),
+//				LV_STATE_DEFAULT);
+//		lv_obj_set_style_bg_color(obj, lv_color_hex(0x000000),
+//				LV_STATE_PRESSED);
+//		lv_obj_set_style_bg_opa(obj, LV_OPA_20, LV_STATE_DEFAULT);
+//		lv_obj_set_style_margin_all(obj, 6, LV_STATE_DEFAULT);
+//		lv_obj_set_height(obj, 46);
+//		lv_obj_set_style_radius(obj, 8, LV_STATE_DEFAULT);
+//		lv_obj_t *label = lv_label_create(obj);
+//		lv_obj_set_style_text_font(label, &iran_yekan_regular_16,
+//				LV_STATE_DEFAULT);
+//		lv_label_set_text(label, "لیست مودم ها");
+//		lv_obj_set_style_text_color(label, lv_color_hex(0x00000),
+//				LV_STATE_DEFAULT);
+//
+//		lv_obj_t *icon = lv_label_create(obj);
+//		lv_obj_set_pos(icon, 0, 10);
+//		lv_label_set_text(icon, LV_SYMBOL_WIFI);
+//		lv_obj_set_style_text_color(icon, lv_color_hex(0x00000),
+//				LV_STATE_DEFAULT);
+//		lv_obj_set_style_flex_main_place(obj, LV_FLEX_ALIGN_SPACE_BETWEEN,
+//				LV_STATE_DEFAULT);
+//		lv_obj_set_style_flex_cross_place(obj, LV_FLEX_ALIGN_CENTER,
+//				LV_STATE_DEFAULT);
+//
+//		lv_obj_add_event(obj, lv_keyboard_btn, LV_EVENT_ALL, dialog2);
+//	}
 
 //	        if (i == 0) {
 //	            lv_obj_add_state(screen_1_list_1_item, LV_STATE_CHECKED);
