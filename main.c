@@ -363,30 +363,41 @@ int main(int argc, char **argv) {
 	lv_obj_align(ready_to_work, LV_ALIGN_BOTTOM_MID, 0, 0);
 	lv_obj_set_style_radius(ready_to_work, 0, LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ready_to_work, 0, LV_STATE_DEFAULT);
+	lv_obj_clear_flag(ready_to_work, LV_OBJ_FLAG_SCROLLABLE);
+	lv_obj_set_style_pad_all(ready_to_work, 0, LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_top(ready_to_work, 20, LV_STATE_DEFAULT);
 
-//	lv_obj_t *box12_1 = lv_obj_create(box12);
-//	lv_obj_set_size(box12_1, 110, 90);
+	lv_obj_t *box12_1 = lv_obj_create(ready_to_work);
+	lv_obj_set_size(box12_1, 480, 100);
 //	lv_obj_set_style_bg_opa(box12_1, LV_OPA_20, LV_STATE_DEFAULT);
-//	lv_obj_set_style_border_width(box12_1, 0, LV_STATE_DEFAULT);
-//	lv_obj_set_style_radius(box12_1, 0, LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(box12_1, 0, LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(box12_1, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_pad_all(box12_1, 20, LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_hor(box12_1, 50, LV_STATE_DEFAULT);
+
 //	lv_obj_set_style_bg_color(box12_1, lv_color_hex(0xF66547), LV_STATE_DEFAULT);
-//	lv_obj_clear_flag(box12_1, LV_OBJ_FLAG_SCROLLABLE);
-
-	lv_obj_t *box_btn_12 = lv_btn_create(ready_to_work);
-
-	lv_obj_set_size(box_btn_12, 80, 60);
-	lv_obj_set_style_radius(box_btn_12, 4, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(box_btn_12, LV_OPA_20, LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(box_btn_12, lv_color_hex(0xF66547),
+	lv_obj_set_flex_flow(box12_1, LV_FLEX_FLOW_ROW);
+	lv_obj_set_style_flex_main_place(box12_1, LV_FLEX_ALIGN_SPACE_BETWEEN,
 			LV_STATE_DEFAULT);
+	lv_obj_set_style_flex_cross_place(box12_1, LV_FLEX_ALIGN_CENTER,
+			LV_STATE_DEFAULT);
+	lv_obj_clear_flag(box12_1, LV_OBJ_FLAG_SCROLLABLE);
+
+	lv_obj_t *box_btn_12 = lv_btn_create(box12_1);
+
+	lv_obj_set_size(box_btn_12, 100, 70);
+	lv_obj_set_style_radius(box_btn_12, 4, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(box_btn_12, LV_OPA_30, LV_STATE_DEFAULT);
+//	lv_obj_set_style_bg_color(box_btn_12, lv_color_hex(0xF66547),
+//			LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(box_btn_12, 10, 0);
 
-	lv_obj_align(box_btn_12, LV_ALIGN_CENTER, 0, 0);
+//	lv_obj_align(box_btn_12, LV_ALIGN_TOP_RIGHT, 0, 0);
 
 	lv_obj_t *label_box_btn_12 = lv_label_create(box_btn_12);
-	lv_obj_set_style_text_font(label_box_btn_12, &iran_yekan_regular_18,
+	lv_obj_set_style_text_font(label_box_btn_12, &iran_yekan_regular_16,
 			LV_STATE_DEFAULT);
-	lv_label_set_text(label_box_btn_12, "وای فای");
+	lv_label_set_text(label_box_btn_12, "بارکد");
 	lv_obj_set_style_text_color(label_box_btn_12, lv_color_hex(0x00000),
 			LV_STATE_DEFAULT);
 	lv_obj_center(label_box_btn_12);
@@ -399,72 +410,103 @@ int main(int argc, char **argv) {
 	lv_obj_clear_flag(box12, LV_OBJ_FLAG_SCROLLABLE);
 	lv_obj_align(box12, LV_ALIGN_TOP_RIGHT, 10, -6);
 
-	lv_obj_t *box_btn_13 = lv_btn_create(ready_to_work);
+	lv_obj_t *box_btn_13 = lv_btn_create(box12_1);
 
-	lv_obj_set_size(box_btn_13, 80, 60);
+	lv_obj_set_size(box_btn_13, 100, 70);
 	lv_obj_set_style_radius(box_btn_13, 4, LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_opa(box_btn_13, LV_OPA_20, LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(box_btn_13, lv_color_hex(0xF66547),
 			LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(box_btn_13, 10, 0);
 
-	lv_obj_align(box_btn_13, LV_ALIGN_CENTER, 0, 0);
+//	lv_obj_align_to(box_btn_13, box_btn_12, LV_ALIGN_OUT_LEFT_MID, -4, 0);
 
 	lv_obj_t *label_box_btn_13 = lv_label_create(box_btn_13);
-	lv_obj_set_style_text_font(label_box_btn_13, &iran_yekan_regular_18,
+	lv_obj_set_style_text_font(label_box_btn_13, &iran_yekan_regular_16,
 			LV_STATE_DEFAULT);
-	lv_label_set_text(label_box_btn_13, "وای فای");
+	lv_label_set_text(label_box_btn_13, "نمره کاربر");
 	lv_obj_set_style_text_color(label_box_btn_13, lv_color_hex(0x00000),
 			LV_STATE_DEFAULT);
 	lv_obj_center(label_box_btn_13);
 
 	lv_obj_t *box13 = lv_obj_create(box_btn_13);
 	lv_obj_set_size(box13, 15, 15);
-	lv_obj_set_style_bg_color(box13, lv_color_hex(0x01E7C1), LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(box13, lv_color_hex(0xF66547), LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(box13, 0, LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(box13, 40, LV_STATE_DEFAULT);
 	lv_obj_clear_flag(box13, LV_OBJ_FLAG_SCROLLABLE);
 	lv_obj_align(box13, LV_ALIGN_TOP_RIGHT, 10, -6);
 
-	lv_obj_t *box_btn_14 = lv_btn_create(ready_to_work);
+	lv_obj_t *box_btn_14 = lv_btn_create(box12_1);
 
-	lv_obj_set_size(box_btn_14, 80, 60);
+	lv_obj_set_size(box_btn_14, 100, 70);
 	lv_obj_set_style_radius(box_btn_14, 4, LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_opa(box_btn_14, LV_OPA_20, LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(box_btn_14, lv_color_hex(0xF66547),
 			LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(box_btn_14, 10, 0);
 
-	lv_obj_align(box_btn_14, LV_ALIGN_CENTER, 0, 0);
+//	lv_obj_align_to(box_btn_14, box_btn_13, LV_ALIGN_OUT_LEFT_MID, -4, 0);
 
 	lv_obj_t *label_box_btn_14 = lv_label_create(box_btn_14);
-	lv_obj_set_style_text_font(label_box_btn_14, &iran_yekan_regular_18,
+	lv_obj_set_style_text_font(label_box_btn_14, &iran_yekan_regular_16,
 			LV_STATE_DEFAULT);
-	lv_label_set_text(label_box_btn_14, "وای فای");
+	lv_label_set_text(label_box_btn_14, "تست برنامه");
 	lv_obj_set_style_text_color(label_box_btn_14, lv_color_hex(0x00000),
 			LV_STATE_DEFAULT);
 	lv_obj_center(label_box_btn_14);
 
-	lv_obj_t *box14 = lv_obj_create(box_btn_14);
-	lv_obj_set_size(box14, 15, 15);
-	lv_obj_set_style_bg_color(box14, lv_color_hex(0x01E7C1), LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(box14, 0, LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(box14, 40, LV_STATE_DEFAULT);
-	lv_obj_clear_flag(box14, LV_OBJ_FLAG_SCROLLABLE);
-	lv_obj_align(box14, LV_ALIGN_TOP_RIGHT, 10, -6);
+//	lv_obj_t *box14 = lv_obj_create(box_btn_14);
+//	lv_obj_set_size(box14, 15, 15);
+//	lv_obj_set_style_bg_color(box14, lv_color_hex(0x01E7C1), LV_STATE_DEFAULT);
+//	lv_obj_set_style_border_width(box14, 0, LV_STATE_DEFAULT);
+//	lv_obj_set_style_radius(box14, 40, LV_STATE_DEFAULT);
+//	lv_obj_clear_flag(box14, LV_OBJ_FLAG_SCROLLABLE);
+//	lv_obj_align(box14, LV_ALIGN_TOP_RIGHT, 10, -6);
 
 	lv_anim_t a;
 	lv_anim_init(&a);
-	lv_anim_set_var(&a, box12);
+	lv_anim_set_var(&a, box13);
 	lv_anim_set_values(&a, 0, LV_OPA_COVER);
 	lv_anim_set_exec_cb(&a, fade_anim_cb);
 	lv_anim_set_ready_cb(&a, fade_in_anim_ready);
-	lv_anim_set_time(&a, 800);
+	lv_anim_set_time(&a, 1000);
 	lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
 	lv_anim_set_delay(&a, 0);
 	lv_anim_start(&a);
 
 //	lv_obj_del_anim_ready_cb(&a);
+
+	lv_obj_t *sendInformation = lv_btn_create(ready_to_work);
+	lv_obj_set_style_radius(sendInformation, 4, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(sendInformation, LV_OPA_30, LV_STATE_DEFAULT);
+	lv_obj_set_size(sendInformation, 120, 50);
+	lv_obj_t *label_sendInformation = lv_label_create(sendInformation);
+	lv_obj_set_style_text_font(label_sendInformation, &iran_yekan_regular_22,
+			LV_STATE_DEFAULT);
+	lv_label_set_text(label_sendInformation, "تنظیمات");
+	lv_obj_set_style_text_color(label_sendInformation, lv_color_hex(0x00000),
+			LV_STATE_DEFAULT);
+	lv_obj_center(label_sendInformation);
+	lv_obj_align(sendInformation, LV_ALIGN_BOTTOM_MID, 0, -60);
+
+
+	lv_obj_t *exit_ready = lv_btn_create(ready_to_work);
+
+	lv_obj_set_size(exit_ready, 90, 34);
+	lv_obj_set_style_radius(exit_ready, 8, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(exit_ready, LV_OPA_20, LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(exit_ready, lv_color_hex(0xF66547), LV_STATE_DEFAULT);
+
+	lv_obj_align_to(exit_ready, sendInformation, LV_ALIGN_OUT_BOTTOM_MID, 0, 15);
+
+	lv_obj_t *label_exit_ready = lv_label_create(exit_ready);
+	lv_obj_set_style_text_font(label_exit_ready, &iran_yekan_regular_16,
+			LV_STATE_DEFAULT);
+	lv_label_set_text(label_exit_ready, "بستن");
+	lv_obj_set_style_text_color(label_exit_ready, lv_color_hex(0x00000),
+			LV_STATE_DEFAULT);
+	lv_obj_center(label_exit_ready);
 
 //	lv_obj_t *authentication = lv_obj_create(screen);
 //	lv_obj_set_size(authentication, 480, 246);
